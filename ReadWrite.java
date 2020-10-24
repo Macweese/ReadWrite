@@ -27,18 +27,18 @@ public class ReadWrite {
     static String[] numbers;
 
     /**
-     * Main un-comment which function you'd like to try out
+     * Main
      */
     public static void main(String[] args) throws IOException
     {
         // Grab numbers from a text, format with two decimal points
-        //ScannerIO.run();
+        ScannerIO.run();
 
         // Read/Write to/from console
-        //BufferedIO.run();
+        BufferedIO.run();
 
         // Read/Write to/from a text file
-        //FileHandler.run();
+        FileHandler.run();
     }
 
     /**
@@ -181,7 +181,7 @@ public class ReadWrite {
         public static void run() throws IOException
         {
             // Reads inputs from console, creates or appends to a text file
-            //fileWriter(BufferedIO.inputReader(), BufferedIO.inputReader(), true);
+            fileWriter(BufferedIO.inputReader(), BufferedIO.inputReader(), true);
 
             // Reads contents from existing text file, prints to console
             System.out.println(fileReader(fileFromPath()));
