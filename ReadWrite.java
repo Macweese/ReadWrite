@@ -100,11 +100,10 @@ public class ReadWrite {
         public static String inputReader() throws IOException
         {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            // Store the data globally, optional
+            
             input = reader.readLine();
             if (input.isEmpty() || input.isBlank() || input.equals(""))
                 return "";
-            //reader.close();
 
             return input;
         }
