@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class ReadWrite {
 
     // This path is specific to my machine
-    static final Path PATH = Paths.get("REDACTED");
+    static final File DESKTOP = new File(System.getProperty("user.home"), "Desktop");
     // This path is specific to my machine
     static final String STRING_PATH = "REDACTED";
 
@@ -28,6 +28,9 @@ public class ReadWrite {
 
     /**
      * Main
+     * 
+     * The program will run all examples in succession
+     * Comment out the commands with // if you'd like to exclude certain functions
      */
     public static void main(String[] args) throws IOException
     {
@@ -90,6 +93,12 @@ public class ReadWrite {
      */
     public static class BufferedIO
     {
+        public static void run()  throws IOException
+        {
+            System.out.println("Type something...");
+            inputReader();
+            printConsole();
+        }
 
         /**
          * Reads the contents of console and returns String value
@@ -100,7 +109,7 @@ public class ReadWrite {
         public static String inputReader() throws IOException
         {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            
+
             input = reader.readLine();
             if (input.isEmpty() || input.isBlank() || input.equals(""))
                 return "";
@@ -117,13 +126,6 @@ public class ReadWrite {
         {
             System.out.println(input);
         }
-
-        public static void run()  throws IOException
-        {
-            System.out.println("Type something...");
-            inputReader();
-            printConsole();
-        }
     }
 
     /**
@@ -131,7 +133,16 @@ public class ReadWrite {
      */
     public static class FileHandler
     {
- /**
+        public static void run() throws IOException
+        {
+            // Reads inputs from console, creates or appends to a text file
+            fileWriter(BufferedIO.inputReader(), BufferedIO.inputReader(), true);
+
+            // Reads contents from existing text file, prints to console
+            System.out.println(fileReader(fileFromPath()));
+        }
+
+        /**
          * Writes over or appends an existing file, or creates a new one if none exists
          *
          * @param filename The file to write or overwrite
@@ -151,7 +162,17 @@ public class ReadWrite {
             else
                 filename = filename + ".txt";
 
-            File f = new File(PATH + filename);
+            /**
+             * Use this if you'd like the destination output to be your desktop
+             * Warning: Check to make sure the path is compatible with your machine
+             *
+             * Otherwise it will default to your project directory
+             */
+            // File file = new File(ReadWrite.DESKTOP, filename);
+            // FileWriter out = new FileWriter(file, append);
+            
+            // File will be created in project directory
+            File file = new File("", filename);
             FileWriter out = new FileWriter(filename, append);
 
             try {
@@ -197,7 +218,6 @@ public class ReadWrite {
             Path path = Paths.get(STRING_PATH + File.separator + BufferedIO.inputReader() + ".txt");
             return path.toFile();
         }
-
 
         /**
          * Validates a String in the context of naming a file on a Windows machine
