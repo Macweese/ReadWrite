@@ -131,7 +131,7 @@ public class ReadWrite {
      */
     public static class FileHandler
     {
-        /**
+ /**
          * Writes over or appends an existing file, or creates a new one if none exists
          *
          * @param filename The file to write or overwrite
@@ -142,7 +142,15 @@ public class ReadWrite {
          */
         static public void fileWriter(String filename, String text, boolean append) throws FileNotFoundException, IOException
         {
-            filename = filename + ".txt";
+            if (filename == null || filename.isBlank() || filename.isEmpty())
+            {
+                filename = defaultFileName();
+            }
+            else if (invalidFileName(filename))
+                filename = validateFileName(filename) + ".txt";
+            else
+                filename = filename + ".txt";
+
             File f = new File(PATH + filename);
             FileWriter out = new FileWriter(filename, append);
 
@@ -177,15 +185,6 @@ public class ReadWrite {
             return content.toString();
         }
 
-        public static void run() throws IOException
-        {
-            // Reads inputs from console, creates or appends to a text file
-            fileWriter(BufferedIO.inputReader(), BufferedIO.inputReader(), true);
-
-            // Reads contents from existing text file, prints to console
-            System.out.println(fileReader(fileFromPath()));
-        }
-
         /**
          * Fetches the file from specified directory
          * NOT COMPATIBLE ON ALL MACHINES
@@ -198,6 +197,40 @@ public class ReadWrite {
             Path path = Paths.get(STRING_PATH + File.separator + BufferedIO.inputReader() + ".txt");
             return path.toFile();
         }
+
+
+        /**
+         * Validates a String in the context of naming a file on a Windows machine
+         *
+         * @param name The passed String to check
+         * @return Returns a valid String
+         */
+        public static String validateFileName(String name)
+        {
+            return name.replaceAll("[^a-zA-Z0-9.-]", "");
+        }
+
+        /**
+         * Check if the file name is valid
+         *
+         * @param name The passed String to check
+         * @return True if the passed parameter contains non-allowed characters
+         */
+        public static boolean invalidFileName(String name)
+        {
+            return !name.matches("[^a-zA-Z0-9.-]");
+        }
+
+        /**
+         * Produces a default String in the context of naming a file
+         *
+         * @return Returns a default String
+         */
+        public static String defaultFileName()
+        {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss z");
+            Date date = new Date();
+            return "Text file " + dateFormat.format(date) + ".txt";
+        }
     }
 }
-
